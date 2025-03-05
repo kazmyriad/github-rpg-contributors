@@ -5,6 +5,8 @@
 import { LitElement, html, css } from "lit";
 import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
 import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
+import '@haxtheweb/rpg-character/rpg-character.js';
+
 
 /**
  * `github-rpg-contributors`
@@ -21,6 +23,10 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
   constructor() {
     super();
     this.title = "";
+    this.source = "";
+    this.seed = "";
+    this.list = [];
+
     this.t = this.t || {};
     this.t = {
       ...this.t,
@@ -40,6 +46,9 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
     return {
       ...super.properties,
       title: { type: String },
+      source: { type: String},
+      seed: { type: String },
+      list: { type: Array }
     };
   }
 
@@ -53,23 +62,37 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
         background-color: var(--ddd-theme-accent);
         font-family: var(--ddd-font-navigation);
       }
-      .wrapper {
-        margin: var(--ddd-spacing-2);
-        padding: var(--ddd-spacing-4);
-      }
       h3 span {
         font-size: var(--github-rpg-contributors-label-font-size, var(--ddd-font-size-s));
       }
     `];
   }
 
+
   // Lit render the HTML
   render() {
     return html`
-<div class="wrapper">
-  <h3><span>${this.t.title}:</span> ${this.title}</h3>
-  <slot></slot>
-</div>`;
+    <div class="widget">
+      getResults();
+      ${this.list.map((item, index) => html`
+      <rpg-character
+      seed="${item.data[0].login}"
+      source="${item.links[0].url}">
+      </rpg-character>
+      `)}
+
+    </div>
+    `;
+  }
+
+
+  getResults(value) {
+    fetch(`https://api.github.com/repos/haxtheweb/webcomponents/contributors`).then(d => d.ok ? d.json(): {}).then(data => {
+      if (data.collection) {
+        this.items = [];
+        this.items = data.collection.items;
+      }  
+    });
   }
 
   /**
