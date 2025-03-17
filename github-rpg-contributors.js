@@ -25,7 +25,9 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
     this.title = "";
     this.source = "";
     this.seed = "";
-    this.list = [];
+    this.items = [];
+    this.org = "haxtheweb";
+    this.repo = "webcomponents"
 
     this.t = this.t || {};
     this.t = {
@@ -48,7 +50,9 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
       title: { type: String },
       source: { type: String},
       seed: { type: String },
-      list: { type: Array }
+      items: { type: Array },
+      org: {type: String},
+      repo: {type:String}
     };
   }
 
@@ -73,26 +77,44 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
   render() {
     return html`
     <div class="widget">
-      getResults();
-      ${this.list.map((item, index) => html`
+      <!-- item.whatever ONLY workd within the map because item is defined here -->
+    ${this.items.map((item, index) => html`
       <rpg-character
-      seed="${item.data[0].login}"
-      source="${item.links[0].url}">
+      seed="${item.login}">
       </rpg-character>
+      <p>Contributions: ${item.contributions}</p>
       `)}
-
     </div>
     `;
   }
 
+  updated(changedProperties) {
+    //want this to run if more contributors are added. how to do.
+    if(changedProperties.has('repo') || changedProperties.has('org')){
+      this.getResults();
+    }
 
-  getResults(value) {
-    fetch(`https://api.github.com/repos/haxtheweb/webcomponents/contributors`).then(d => d.ok ? d.json(): {}).then(data => {
-      if (data.collection) {
+    // else if (changedProperties.has('') && !this.value) {
+    //   this.items = [];
+    // }
+
+    // // @debugging purposes only
+    // if (changedProperties.has('items') && this.items.length > 0) {
+    //   console.log(this.items);
+    // }
+  }
+
+
+  getResults() {
+    // .then is turning it into JSON???? i think??
+    fetch(`https://api.github.com/repos/${this.org}/${this.repo}/contributors`).then(d => d.ok ? d.json(): {}).then(data => {
+      if (data) {
         this.items = [];
-        this.items = data.collection.items;
+        this.items = data;
+        this.loading = false;
       }  
     });
+
   }
 
   /**
