@@ -23,11 +23,11 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
   constructor() {
     super();
     this.title = "";
-    this.source = "";
     this.seed = "";
+    this.limit = "";
     this.items = [];
     this.org = "haxtheweb";
-    this.repo = "webcomponents"
+    this.repo = "webcomponents";
 
     this.t = this.t || {};
     this.t = {
@@ -48,11 +48,11 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
     return {
       ...super.properties,
       title: { type: String },
-      source: { type: String },
       seed: { type: String },
       items: { type: Array },
       org: { type: String },
-      repo: { type: String }
+      repo: { type: String },
+      limit: { type: Number}
     };
   }
 
@@ -107,7 +107,7 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
     return html`
     <div class="wrapper"> 
           <!-- item.whatever ONLY workd within the map because item is defined here -->
-          ${this.items.map((item, index) => html`
+          ${this.items.slice(0, this.limit).map((item, index) => html`
            
             <div class="rpg-block">
               <div class="rpg-character">
@@ -123,6 +123,10 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
               </div>
            </div>
           `)} 
+
+          <div class="footer">
+            <p>Showing the top ${this.limit} contributors. Click here to see them all!</p>
+          </div>
   </div>
    
     `;
