@@ -48,11 +48,11 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
     return {
       ...super.properties,
       title: { type: String },
-      source: { type: String},
+      source: { type: String },
       seed: { type: String },
       items: { type: Array },
-      org: {type: String},
-      repo: {type:String}
+      org: { type: String },
+      repo: { type: String }
     };
   }
 
@@ -66,9 +66,38 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
         background-color: var(--ddd-theme-accent);
         font-family: var(--ddd-font-navigation);
       }
-      h3 span {
-        font-size: var(--github-rpg-contributors-label-font-size, var(--ddd-font-size-s));
+
+      .wrapper
+      {
+        text-align: center;
+        width: 100%;
       }
+
+      .info
+      {
+        font-size: var(--ddd-font-size-4xs);
+        
+      }
+      .rpg-character
+      {
+        overflow: hidden;
+      }
+
+      .rpg-character:hover
+      {
+      transition: all .5s ease;
+      transform: rotateY(180deg);
+      }
+
+      .rpg-block
+      {
+        display:inline-block; 
+        width: 7em;
+        margin: 5px;
+        padding: 5px;
+        text-align: center;
+      }
+      
     `];
   }
 
@@ -76,21 +105,33 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
   // Lit render the HTML
   render() {
     return html`
-    <div class="widget">
-      <!-- item.whatever ONLY workd within the map because item is defined here -->
-    ${this.items.map((item, index) => html`
-      <rpg-character
-      seed="${item.login}">
-      </rpg-character>
-      <p>Contributions: ${item.contributions}</p>
-      `)}
-    </div>
+    <div class="wrapper"> 
+          <!-- item.whatever ONLY workd within the map because item is defined here -->
+          ${this.items.map((item, index) => html`
+           
+            <div class="rpg-block">
+              <div class="rpg-character">
+                <rpg-character
+                seed="${item.login}"
+                onclick="location.href='${item.url}';">
+                </rpg-character>
+              </div>
+          
+              <div class="info">
+                <p>${item.login}</p>
+                <p>Contributions: ${item.contributions}</p>
+              </div>
+           </div>
+          `)} 
+  </div>
+   
     `;
+    
   }
 
   updated(changedProperties) {
     //want this to run if more contributors are added. how to do.
-    if(changedProperties.has('repo') || changedProperties.has('org')){
+    if (changedProperties.has('repo') || changedProperties.has('org')) {
       this.getResults();
     }
 
@@ -107,15 +148,17 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
 
   getResults() {
     // .then is turning it into JSON???? i think??
-    fetch(`https://api.github.com/repos/${this.org}/${this.repo}/contributors`).then(d => d.ok ? d.json(): {}).then(data => {
+    fetch(`https://api.github.com/repos/${this.org}/${this.repo}/contributors`).then(d => d.ok ? d.json() : {}).then(data => {
       if (data) {
         this.items = [];
         this.items = data;
         this.loading = false;
-      }  
+      }
     });
 
   }
+
+
 
   /**
    * haxProperties integration via file reference
