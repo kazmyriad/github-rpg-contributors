@@ -109,19 +109,15 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
           <!-- item.whatever ONLY workd within the map because item is defined here -->
           ${this.items.map((item, index) => html`
            
-            <div class="rpg-block">
+            <a class="rpg-block" href="${item.html_url}" target="_blank">
               <div class="rpg-character">
-                <rpg-character
-                seed="${item.login}"
-                onclick="location.href='${item.url}';">
-                </rpg-character>
+                <rpg-character seed="${item.login}"></rpg-character>
               </div>
-          
               <div class="info">
                 <p>${item.login}</p>
                 <p>Contributions: ${item.contributions}</p>
               </div>
-           </div>
+           </a>
           `)} 
   </div>
    
