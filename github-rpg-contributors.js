@@ -113,6 +113,7 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
         overflow: hidden;
         background-color: var(--ddd-theme-default-potential75);
         border-radius: var(--ddd-radius-lg);
+        
       }
 
       .info
@@ -138,12 +139,11 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
       .rpg-block:hover
       {
         transition: all .8s ease-in-out;
-        color: var(--ddd-theme-default-discoveryCoral);
+        color: var(--ddd-theme-default-pughBlue);
         background-color: var(--ddd-theme-default-slateGray);
         transform: rotateY(360deg);
       }
 
-      
     `];
   }
 
@@ -159,7 +159,7 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
           ${this.items.slice(0, this.limit).map((item, index) => html`
            
             <div class="rpg-block">
-              <div class="rpg-character">
+              <div class="rpg-character bounce">
                 <a class="character" href="${item.html_url}" target="_blank">
                   <rpg-character seed="${item.login}"></rpg-character>
                 </a>
