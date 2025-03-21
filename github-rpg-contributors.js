@@ -71,8 +71,8 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
         text-align: center;
         width: 90vw;
         background-color: var(--ddd-theme-default-potentialMidnight);
-        padding: 5px;
-        margin: 5px;
+        padding: var(--ddd-spacing-2);
+        margin: var(--ddd-spacing-2);
         border-radius: var(--ddd-radius-xl);
       }
 
@@ -86,7 +86,7 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
         font-size: var(--ddd-font-size-xs);
         color: var(--ddd-theme-default-slateGray);
         padding: var(--ddd-spacing-5);
-        margin-top: 5px;
+        margin-top: var(--ddd-spacing-2);
       }
 
       p
@@ -103,16 +103,22 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
       h2
       {
         color: var(--ddd-theme-default-slateMaxLight);
+        background-color: var(--ddd-theme-default-creekTeal);
+        padding: var(--ddd-spacing-2);
+        font-weight: var(--ddd-font-weight-bold);
       }
 
       .rpg-character
       {
         overflow: hidden;
+        background-color: var(--ddd-theme-default-potential75);
+        border-radius: var(--ddd-radius-lg);
       }
 
       .info
       {
         font-weight: var(--ddd-font-weight-bold);
+        margin-top: var(--ddd-spacing-2);
       }
 
       .rpg-block
