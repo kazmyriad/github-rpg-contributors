@@ -62,8 +62,7 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
     css`
       :host {
         display: block;
-        color: var(--ddd-theme-primary);
-        background-color: var(--ddd-theme-accent);
+        color: var(--ddd-theme-default-slateMaxLight);
         font-family: var(--ddd-font-navigation);
       }
 
@@ -71,6 +70,10 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
       {
         text-align: center;
         width: 90vw;
+        background-color: var(--ddd-theme-default-potentialMidnight);
+        padding: 5px;
+        margin: 5px;
+        border-radius: var(--ddd-radius-xl);
       }
 
       .info
@@ -95,6 +98,11 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
       h4
       {
         margin: var(--ddd-spacing-0);
+      }
+
+      h2
+      {
+        color: var(--ddd-theme-default-slateMaxLight);
       }
 
       .rpg-character
@@ -139,7 +147,7 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
     return html`
     <div class="wrapper"> 
           <!-- item.whatever ONLY workd within the map because item is defined here -->
-          <h2>Meet the Contributors for 
+          <h2>Meet the ${this.limit == 1 ? " Top Contributor " : " Contributors "} for 
             <a href="https://github.com/${this.org}/${this.repo}">${this.org}</a>
           </h2>
           ${this.items.slice(0, this.limit).map((item, index) => html`
@@ -158,7 +166,7 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
           </div>
           `)} 
 
-          <p class="footer"> Showing the top ${this.limit == 1 ? " contributor" : this.limit + " contributors"}. See the full list <a href="https://api.github.com/repos/${this.org}/${this.repo}/contributors">Here</a></p>
+          <p class="footer"> Showing the top ${this.limit == 1 ? " contributor" : this.limit + " contributors"}. See the full list <a href="https://api.github.com/repos/${this.org}/${this.repo}/contributors"> here</a></p>
   </div>
    
     `;
