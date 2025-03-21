@@ -83,6 +83,7 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
         font-size: var(--ddd-font-size-xs);
         color: var(--ddd-theme-default-slateGray);
         padding: var(--ddd-spacing-5);
+        margin-top: 5px;
       }
 
       p
@@ -157,7 +158,7 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
           </div>
           `)} 
 
-          <p class="footer"> Showing the top ${this.limit} contributors. See the full list <a href="https://api.github.com/repos/${this.org}/${this.repo}/contributors">Here</a></p>
+          <p class="footer"> Showing the top ${this.limit == 1 ? " contributor" : this.limit + " contributors"}. See the full list <a href="https://api.github.com/repos/${this.org}/${this.repo}/contributors">Here</a></p>
   </div>
    
     `;
@@ -166,24 +167,13 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
 
 
   updated(changedProperties) {
-    //want this to run if more contributors are added. how to do.
     if (changedProperties.has('repo') || changedProperties.has('org')) {
       this.getResults();
     }
-
-    // else if (changedProperties.has('') && !this.value) {
-    //   this.items = [];
-    // }
-
-    // // @debugging purposes only
-    // if (changedProperties.has('items') && this.items.length > 0) {
-    //   console.log(this.items);
-    // }
   }
 
 
   getResults() {
-    // .then is turning it into JSON???? i think??
     fetch(`https://api.github.com/repos/${this.org}/${this.repo}/contributors`).then(d => d.ok ? d.json() : {}).then(data => {
       if (data) {
         this.items = [];
@@ -193,7 +183,6 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
     });
 
   }
-
 
 
   /**
