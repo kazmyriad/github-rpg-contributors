@@ -180,8 +180,11 @@ export class GithubRpgContributors extends DDDSuper(I18NMixin(LitElement)) {
   }
 
 
-  updated(changedProperties) {
-    if (changedProperties.has('repo') || changedProperties.has('org')) {
+  updated(changedProperties) 
+  {
+    super.updated(changedProperties);
+    if (changedProperties.has('repo') || changedProperties.has('org')) 
+      {
       this.getResults();
     }
   }
